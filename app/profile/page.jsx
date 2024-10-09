@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import { FileUpload } from './upload';
 import { Row, Col } from 'reactstrap';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import { getAccessToken } from '@auth0/nextjs-auth0';
@@ -85,7 +86,7 @@ user(userId: "${user.sub}") {
           <button color="primary" onClick={handleGetToken} className="mt-3">
             Print JWT Token
           </button>
-
+          <FileUpload />
           {/* Display the token on the screen if fetched */}
           {jwtToken && (
             <Row className="mt-3">
