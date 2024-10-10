@@ -6,7 +6,7 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 import { useUser } from '@auth0/nextjs-auth0/client';
 
@@ -23,14 +23,14 @@ const formSchema = z.object({
     background: z.string().optional(),
     colorPrimary: z.string().optional(),
     colorSecondary: z.string().optional(),
-    logo: z.any().optional(),
+
     fontPrimary: z.string().optional(),
     fontSecondary: z.string().optional(),
 })
 
 export function ProfileForm() {
     const { user, isLoading } = useUser() // Fetching user details from useUser hook
-
+    const [fileUrl, setFileUrl] = useState('');
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -45,7 +45,7 @@ export function ProfileForm() {
             background: "",
             colorPrimary: "",
             colorSecondary: "",
-            logo: null, // Use null for files
+
             fontPrimary: "",
             fontSecondary: "",
         },
@@ -66,7 +66,7 @@ export function ProfileForm() {
         try {
             const formData = new FormData();
             console.log('hi')
-            console.log(values.logo[0])
+
             // Append form fields to FormData
             Object.entries(values).forEach(([key, value]) => {
                 if (value !== undefined && value !== null) {
@@ -74,13 +74,13 @@ export function ProfileForm() {
                 }
             });
 
-            // Append the file to FormData
-            if (values.logo) {
-                formData.append("logo", values.logo[0]); // Assuming `logo` is a FileList (from file input)
+            if (fileUrl == '') {
+                alert('Please upload a logo')
+                return
             }
-
+            formData.append('fileUrl', fileUrl);
             // Make the POST request with multipart/form-data
-            const response = await fetch("/api/upload", {
+            const response = await fetch("/api/shop", {
                 method: "POST",
                 body: formData,
             });
@@ -88,9 +88,9 @@ export function ProfileForm() {
             const result = await response.json();
 
             if (response.ok) {
-                console.log("File uploaded successfully", result);
+                console.log("Shop added successfully", result);
             } else {
-                console.error("Error uploading file:", result.message);
+                console.error("Error adding shop:", result.message);
             }
         } catch (error) {
             console.error("Error submitting form:", error);
@@ -98,76 +98,136 @@ export function ProfileForm() {
     };
 
 
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target); // Get the form data
+        try {
+            const response = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData, // Send form data including the file
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                setFileUrl(result.fileUrl); // Set the file URL from the response
+            } else {
+                console.error('File upload failed:', result.message);
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} encType="multipart/form-data">
-            <div className="grid grid-cols-2 w-full items-center gap-3">
-                {/* Left Column */}
-                <div className="grid-cols-1">
-                    <div>
-                        <Label htmlFor="shopId">Shop ID</Label>
-                        <Input {...form.register("shopId")} type="text" id="shopId" placeholder="Shop ID" disabled />
+        <div>
+
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <div className="grid grid-cols-2 w-full items-center gap-3">
+                    <div className="grid grid-cols-2 gap-3">
+                        <div className=" grid-cols-1">
+                            <Label htmlFor="shopId" for="file" >Logo</Label>
+                            <Input type="file" name="file" id="file" />
+                        </div>
+                        <div className=" grid-cols-1">
+                            <Button
+                                type="submit"
+                                variant="secondary"
+                                className="text-white mt-4 w-full "
+                            >
+                                Upload
+                            </Button>
+                        </div>
                     </div>
-                    <div>
-                        <Label htmlFor="shopName">Shop Name</Label>
-                        <Input {...form.register("shopName")} type="text" id="shopName" placeholder="Shop Name" />
+                    <div className=" grid-cols-1">
+
                     </div>
-                    <div>
-                        <Label htmlFor="ownerName">Owner Name</Label>
-                        <Input {...form.register("ownerName")} type="text" id="ownerName" placeholder="Owner Name" disabled />
+                </div>
+            </form>
+
+            {fileUrl && (
+                <p className="mt-4">
+                    File uploaded successfully!{' '}
+                    <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                        View File
+                    </a>
+                </p>
+            )}
+
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="grid grid-cols-2 w-full items-center gap-3">
+                    {/* Left Column */}
+                    <div className="grid-cols-1">
+                        <div>
+                            <Label htmlFor="shopId">Shop ID</Label>
+                            <Input {...form.register("shopId")} type="text" id="shopId" placeholder="Shop ID" disabled />
+                        </div>
+                        <div>
+                            <Label htmlFor="shopName">Shop Name</Label>
+                            <Input {...form.register("shopName")} type="text" id="shopName" placeholder="Shop Name" />
+                        </div>
+                        <div>
+                            <Label htmlFor="ownerName">Owner Name</Label>
+                            <Input {...form.register("ownerName")} type="text" id="ownerName" placeholder="Owner Name" disabled />
+                        </div>
+                        <div>
+                            <Label htmlFor="ownerEmail">Owner Email</Label>
+                            <Input {...form.register("ownerEmail")} type="email" id="ownerEmail" placeholder="Owner Email" />
+                        </div>
+                        <div>
+                            <Label htmlFor="ownerUserId">Owner User ID</Label>
+                            <Input {...form.register("ownerUserId")} type="text" id="ownerUserId" placeholder="Owner User ID" disabled />
+                        </div>
+                        <div>
+                            <Label htmlFor="ownerPhone">Owner Phone</Label>
+                            <Input {...form.register("ownerPhone")} type="tel" id="ownerPhone" placeholder="Owner Phone" />
+                        </div>
                     </div>
-                    <div>
-                        <Label htmlFor="ownerEmail">Owner Email</Label>
-                        <Input {...form.register("ownerEmail")} type="email" id="ownerEmail" placeholder="Owner Email" />
-                    </div>
-                    <div>
-                        <Label htmlFor="ownerUserId">Owner User ID</Label>
-                        <Input {...form.register("ownerUserId")} type="text" id="ownerUserId" placeholder="Owner User ID" disabled />
-                    </div>
-                    <div>
-                        <Label htmlFor="ownerPhone">Owner Phone</Label>
-                        <Input {...form.register("ownerPhone")} type="tel" id="ownerPhone" placeholder="Owner Phone" />
+
+                    {/* Right Column */}
+                    <div className="grid-cols-1">
+                        <div>
+                            <Label htmlFor="ownerAddress">Owner Address</Label>
+                            <Input {...form.register("ownerAddress")} type="text" id="ownerAddress" placeholder="Owner Address" />
+                        </div>
+                        <div>
+                            <Label htmlFor="description">Description</Label>
+                            <Input {...form.register("description")} type="text" id="description" placeholder="Description" />
+                        </div>
+                        <div className="grid-cols-3 grid gap-2">
+                            <div>
+                                <Label htmlFor="background">Background</Label>
+                                <Input {...form.register("background")} type="color" id="background" placeholder="Background" />
+                            </div>
+                            <div>
+                                <Label htmlFor="colorPrimary">Primary Color</Label>
+                                <Input {...form.register("colorPrimary")} type="color" id="colorPrimary" placeholder="Primary Color" />
+                            </div>
+                            <div>
+                                <Label htmlFor="colorSecondary">Secondary Color</Label>
+                                <Input {...form.register("colorSecondary")} type="color" id="colorSecondary" placeholder="Secondary Color" />
+                            </div>
+                        </div>
+                        {/* <div>
+                        <Label htmlFor="logo">Logo URL</Label>
+                        <Input {...form.register("logo")} type="file" id="logo" placeholder="Logo URL" />
+                    </div> */}
+                        <div>
+                            <Label htmlFor="fontPrimary">Primary Font</Label>
+                            <Input {...form.register("fontPrimary")} type="text" id="fontPrimary" placeholder="Primary Font" />
+                        </div>
+                        <div>
+                            <Label htmlFor="fontSecondary">Secondary Font</Label>
+                            <Input {...form.register("fontSecondary")} type="text" id="fontSecondary" placeholder="Secondary Font" />
+                        </div>
+                        <div>
+                            <Button type="submit" variant="secondary" className="mt-4 w-full text-white">Submit</Button>
+                        </div>
                     </div>
                 </div>
 
-                {/* Right Column */}
-                <div className="grid-cols-1">
-                    <div>
-                        <Label htmlFor="ownerAddress">Owner Address</Label>
-                        <Input {...form.register("ownerAddress")} type="text" id="ownerAddress" placeholder="Owner Address" />
-                    </div>
-                    <div>
-                        <Label htmlFor="description">Description</Label>
-                        <Input {...form.register("description")} type="text" id="description" placeholder="Description" />
-                    </div>
-                    <div className="grid-cols-3 grid gap-2">
-                        <div>
-                            <Label htmlFor="background">Background</Label>
-                            <Input {...form.register("background")} type="color" id="background" placeholder="Background" />
-                        </div>
-                        <div>
-                            <Label htmlFor="colorPrimary">Primary Color</Label>
-                            <Input {...form.register("colorPrimary")} type="color" id="colorPrimary" placeholder="Primary Color" />
-                        </div>
-                        <div>
-                            <Label htmlFor="colorSecondary">Secondary Color</Label>
-                            <Input {...form.register("colorSecondary")} type="color" id="colorSecondary" placeholder="Secondary Color" />
-                        </div>
-                    </div>
-                    <div>
-                        <Label htmlFor="logo">Logo URL</Label>
-                        <Input {...form.register("logo")} type="file" id="logo" placeholder="Logo URL" />
-                    </div>
-                    <div>
-                        <Label htmlFor="fontPrimary">Primary Font</Label>
-                        <Input {...form.register("fontPrimary")} type="text" id="fontPrimary" placeholder="Primary Font" />
-                    </div>
-                    <div>
-                        <Label htmlFor="fontSecondary">Secondary Font</Label>
-                        <Input {...form.register("fontSecondary")} type="text" id="fontSecondary" placeholder="Secondary Font" />
-                    </div>
-                </div>
-            </div>
-            <Button type="submit">Submit</Button>
-        </form>
+            </form>
+        </div>
     )
 }

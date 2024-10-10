@@ -7,7 +7,7 @@ import Footer from './Footer';
 
 const Layout = ({ children }) => (
   <>
-    <Head>
+    {/* <Head>
       <link
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -21,7 +21,7 @@ const Layout = ({ children }) => (
       <NavBar />
       <Container className="flex-grow-1 mt-5">{children}</Container>
       <Footer />
-    </main>
+    </main> */}
   </>
 );
 

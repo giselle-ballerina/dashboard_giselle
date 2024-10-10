@@ -83,10 +83,10 @@ user(userId: "${user.sub}") {
           </Row> */}
           {/* <UserD userId={user.sub} /> */}
           <ProfileForm />
-          <button color="primary" onClick={handleGetToken} className="mt-3">
+          {/* <button color="primary" onClick={handleGetToken} className="mt-3">
             Print JWT Token
           </button>
-          <FileUpload />
+          <FileUpload /> */}
           {/* Display the token on the screen if fetched */}
           {jwtToken && (
             <Row className="mt-3">

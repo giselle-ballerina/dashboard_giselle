@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap';
+import { Logo } from './Logo';
 import { useUser } from '@auth0/nextjs-auth0/client';
 
 import PageLink from './PageLink';
@@ -28,7 +29,7 @@ const NavBar = () => {
     <div className="nav-container" data-testid="navbar">
       <Navbar color="light" light expand="md">
         <Container>
-          <NavbarBrand className="logo" />
+          {/* <Logo /> */}
           <NavbarToggler onClick={toggle} data-testid="navbar-toggle" />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar data-testid="navbar-items">
@@ -40,18 +41,18 @@ const NavBar = () => {
               {user && (
                 <>
                   <NavItem>
-                    <PageLink href="/csr" className="nav-link" testId="navbar-csr">
-                      Client-side rendered page
+                    <PageLink href="/inventory" className="nav-link" testId="navbar-csr">
+                      Inventory
                     </PageLink>
                   </NavItem>
                   <NavItem>
-                    <PageLink href="/ssr" className="nav-link" testId="navbar-ssr">
-                      Server-side rendered page
+                    <PageLink href="/purchases" className="nav-link" testId="navbar-ssr">
+                      Purchases
                     </PageLink>
                   </NavItem>
                   <NavItem>
-                    <PageLink href="/external" className="nav-link" testId="navbar-external">
-                      External API
+                    <PageLink href="/insights" className="nav-link" testId="navbar-external">
+                      Insights
                     </PageLink>
                   </NavItem>
                 </>
