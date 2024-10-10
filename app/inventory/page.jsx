@@ -1,5 +1,5 @@
 'use client';
-
+// import { useSelector } from 'react-redux'
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -68,6 +68,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useState } from 'react'
 import { AddItemForm } from "./Modal"
+
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions."
 
@@ -76,6 +77,7 @@ export default function Dashboard() {
 
   const handleOpenModal = () => setIsOpen(true)
   const handleCloseModal = () => setIsOpen(false)
+  // const { shopg, loadingg, errorg } = useSelector(state => state);
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
 
@@ -278,7 +280,7 @@ export default function Dashboard() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>My accc</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>

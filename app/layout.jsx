@@ -6,7 +6,8 @@ import { Container } from 'reactstrap';
 import Footer from '../components/Footer';
 import React from 'react';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-
+import { Provider } from 'react-redux';
+import { store } from './store';
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -21,11 +22,13 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <UserProvider>
-          <main id="app" className="d-flex flex-column h-100" data-testid="layout">
-            <NavBar />
-            <Container className="flex-grow-1 mt-5">{children}</Container>
-            <Footer />
-          </main>
+          <Provider store={store}>
+            <main id="app" className="d-flex flex-column h-100" data-testid="layout">
+              <NavBar />
+              <Container className="flex-grow-1 mt-5">{children}</Container>
+              <Footer />
+            </main>
+          </Provider>
         </UserProvider>
       </body>
     </html>

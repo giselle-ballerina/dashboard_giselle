@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 
+import { useSelector, useDispatch } from 'react-redux';
 function ProfilePage() {
   const { user, isLoading } = useUser();
   const [shop, setShop] = useState(null);
@@ -8,16 +9,19 @@ function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [isOwnerDetailsOpen, setOwnerDetailsOpen] = useState(false); // Collapsible for owner details
   const [isShopInsightsOpen, setShopInsightsOpen] = useState(false); // Collapsible for shop insights
-
+  const dispatch = useDispatch();
+  const { shopg, loadingg, errorg } = useSelector(state => state);
   useEffect(() => {
     const fetchShop = async () => {
       if (user) {
+        dispatch({ type: 'SET_LOADING', payload: true });
         try {
           const response = await fetch(`/api/shop/${user.sub}`, {
             method: 'GET',
           });
 
           const result = await response.json();
+          dispatch({ type: 'SET_SHOP', payload: result });
           if (result.shopName) {
             setShop(result);
           } else {
@@ -26,9 +30,12 @@ function ProfilePage() {
           }
         } catch (error) {
           setError('Error fetching shop data.');
+          dispatch({ type: 'SET_ERROR', payload: 'Error fetching shop data' });
         } finally {
           setLoading(false);
+          dispatch({ type: 'SET_LOADING', payload: false });
         }
+
       }
     };
 
@@ -37,7 +44,7 @@ function ProfilePage() {
     } else {
       setLoading(false);
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   if (isLoading || loading) {
     return <div>Loading...</div>;
