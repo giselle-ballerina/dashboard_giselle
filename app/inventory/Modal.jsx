@@ -51,12 +51,34 @@ export function AddItemForm({ handleCloseModal }) {
     setValue('itemId', uuidv4()); // Generate and set a unique ID for itemId
   }, [shopg, setValue]);
 
-  const onSubmit = (data) => {
-    const submittedData = { ...data, fileUrls };
-    console.log("Item Data:", submittedData);
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+  
+    // Append form fields to FormData object
+    formData.append('itemId', data.itemId);
+    formData.append('shopId', data.shopName);
+    formData.append('price', data.price);
+    formData.append('productName', data.productName);
+    formData.append('description', data.description);
+    formData.append('brand', data.brand);
+    formData.append('tags', tags.join(',')); // Convert tags array to a string
+    formData.append('varients', JSON.stringify(varients)); // Convert varients array to a JSON string
+  
+    // Handle file upload, if any (make sure you have file inputs)
+    fileUrls.forEach((file, index) => {
+      formData.append(`file${index}`, file); // Assuming fileUrls contain File objects
+    });
+  
+    await fetch('/api/item', {
+      method: 'POST',
+      body: formData, // Sending as multipart/form-data
+    });
+  
+    console.log("Item Data Submitted:", formData);
     reset();
     handleCloseModal();
   };
+  
 
   const addTag = (tag) => {
     if (tag && !tags.includes(tag)) {
