@@ -45,7 +45,7 @@ export const GET = async (req, { params }) => {
     }
 
     const data = await response.json();
-
+    console.log(data);
     // If no shop is found, return a 404 error with the message
     if (data.errors) {
       return NextResponse.json({ error: data.errors[0].message }, { status: 404 });

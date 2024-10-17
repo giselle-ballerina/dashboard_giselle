@@ -76,7 +76,7 @@ export function AddItemForm({ handleCloseModal }) {
   
     console.log("Item Data Submitted:", formData);
     reset();
-    // handleCloseModal();
+    handleCloseModal();
   };
   
 

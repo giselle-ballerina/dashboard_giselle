@@ -106,9 +106,8 @@ export default function Dashboard() {
     } else {
       // If shopg exists, set it to shop
       setShop(shopg);
+    
     }
-  }, [shopg, dispatch]);
-  useEffect(()=>{
     const fetchItems = async (shopID) => {
       const response = await fetch(`/api/item/shop`, {
         method: 'POST', // Change to POST
@@ -126,10 +125,13 @@ export default function Dashboard() {
       console.log(data);
       setItems(data);
     };
+    console.log(shopg.shopId)
+    fetchItems(shopg.shopId);
+  }, [shopg, dispatch]);
+  useEffect(()=>{
+   
     
-    fetchItems("shop_42220")
-    
-  },[])
+  },[shop, shopg, dispatch]);
   // const { shopg, loadingg, errorg } = useSelector(state => state);
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
