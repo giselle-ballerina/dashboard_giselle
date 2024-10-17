@@ -1,5 +1,6 @@
 'use client';
 // import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -66,17 +67,69 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useState } from 'react'
+import { useState , useEffect, use } from 'react'
 import { AddItemForm } from "./Modal"
-
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
+import { set } from 'react-hook-form';
 export const description =
   "An products dashboard with a sidebar navigation. The sidebar has icon navigation. The content area has a breadcrumb and search in the header. It displays a list of products in a table with actions."
 
 export default function Dashboard() {
   const [isOpen, setIsOpen] = useState(false)
-
+  const [items, setItems] = useState([])
+  const[shop, setShop] = useState({
+    logo : ""
+  })
+  const dispatch = useDispatch();
+  const { shopg } = useSelector(state => state); 
   const handleOpenModal = () => setIsOpen(true)
   const handleCloseModal = () => setIsOpen(false)
+  const { user, isLoading } = useUser();
+  useEffect(() => {
+    if (!shopg || !shopg.logo) {
+      // If the dispatched shopg is null, fetch the shop data manually
+      const fetchShopData = async () => {
+        try {
+          const response = await fetch(`/api/shop/${user.sub}`, {
+            method: 'GET',
+          });
+          const data = await response.json();
+          if (data) {
+            setShop(data);
+            dispatch({ type: 'SET_SHOP', payload: data });
+          }
+        } catch (error) {
+          console.error('Error fetching shop:', error);
+        }
+      };
+      fetchShopData();
+    } else {
+      // If shopg exists, set it to shop
+      setShop(shopg);
+    }
+  }, [shopg, dispatch]);
+  useEffect(()=>{
+    const fetchItems = async (shopID) => {
+      const response = await fetch(`/api/item/shop`, {
+        method: 'POST', // Change to POST
+        headers: {
+          'Content-Type': 'application/json', // Specify the content type if sending JSON
+        },
+        body: JSON.stringify({ shopID }), // Send shopID in the body if required
+      });
+    
+      if (!response.ok) {
+        throw new Error(`Failed to fetch items: ${response.status}`);
+      }
+    
+      const data = await response.json();
+      console.log(data);
+      setItems(data);
+    };
+    
+    fetchItems("shop_42220")
+    
+  },[])
   // const { shopg, loadingg, errorg } = useSelector(state => state);
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -152,25 +205,7 @@ export default function Dashboard() {
               </nav>
             </SheetContent>
           </Sheet>
-          <Breadcrumb className="hidden md:flex">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="#">Dashboard</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="#">Products</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>All Products</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          
           <div className="relative ml-auto flex-1 md:grow-0">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -187,7 +222,7 @@ export default function Dashboard() {
                 className="overflow-hidden rounded-full"
               >
                 <Image
-                  src="/placeholder-user.jpg"
+                  src={shop.logo  }
                   width={36}
                   height={36}
                   alt="Avatar"
@@ -253,26 +288,26 @@ export default function Dashboard() {
               </div>
             </div>
             <TabsContent value="all">
-  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    {/* Card for each product */}
-    <Card>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  {/* Card for each product */}
+  {items.map((element, index) => (
+    <Card key={index}> {/* Always provide a unique key */}
       <CardHeader>
         <Image
           alt="Product image"
           className="aspect-square rounded-md object-cover"
-          height="64"
-          src="/placeholder.svg"
-          width="64"
+          height="200"
+          src={element.images[0].url}
+          width="200"
         />
-        <CardTitle>Laser Lemonade Machine</CardTitle>
+        <CardTitle>{element.productName}</CardTitle>
         <CardDescription>
-          <Badge variant="outline">Draft</Badge>
+          <Badge variant="outline">{element.brand}</Badge>
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm">Price: $499.99</p>
-        <p className="text-sm">Total Sales: 25</p>
-        <p className="text-sm">Created at: 2023-07-12 10:42 AM</p>
+        <p className="text-sm">{element.description}</p>
+        <p className="text-sm">Price: {element.price}</p>
       </CardContent>
       <CardFooter className="flex justify-end">
         <DropdownMenu>
@@ -294,50 +329,9 @@ export default function Dashboard() {
         </DropdownMenu>
       </CardFooter>
     </Card>
+  ))}
+</div>
 
-    {/* Repeat cards for other products */}
-    <Card>
-      <CardHeader>
-        <Image
-          alt="Product image"
-          className="aspect-square rounded-md object-cover"
-          height="64"
-          src="/placeholder.svg"
-          width="64"
-        />
-        <CardTitle>Hypernova Headphones</CardTitle>
-        <CardDescription>
-          <Badge variant="outline">Active</Badge>
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm">Price: $129.99</p>
-        <p className="text-sm">Total Sales: 100</p>
-        <p className="text-sm">Created at: 2023-10-18 03:21 PM</p>
-      </CardContent>
-      <CardFooter className="flex justify-end">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              aria-haspopup="true"
-              size="icon"
-              variant="ghost"
-            >
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </CardFooter>
-    </Card>
-
-    {/* Continue for remaining products */}
-  </div>
 </TabsContent>
 
           </Tabs>
