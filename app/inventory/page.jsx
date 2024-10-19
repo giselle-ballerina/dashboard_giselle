@@ -1,6 +1,7 @@
 'use client';
 // import { useSelector } from 'react-redux'
 import { useSelector, useDispatch } from 'react-redux';
+import { ProductCard } from './Card';
 import Image from "next/image"
 import Link from "next/link"
 import {

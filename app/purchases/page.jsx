@@ -2,28 +2,89 @@
 
 import React from 'react';
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
-
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+ 
+const invoices = [
+  {
+    invoice: "INV001",
+    paymentStatus: "Paid",
+    totalAmount: "$250.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV002",
+    paymentStatus: "Pending",
+    totalAmount: "$150.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV003",
+    paymentStatus: "Unpaid",
+    totalAmount: "$350.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV004",
+    paymentStatus: "Paid",
+    totalAmount: "$450.00",
+    paymentMethod: "Credit Card",
+  },
+  {
+    invoice: "INV005",
+    paymentStatus: "Paid",
+    totalAmount: "$550.00",
+    paymentMethod: "PayPal",
+  },
+  {
+    invoice: "INV006",
+    paymentStatus: "Pending",
+    totalAmount: "$200.00",
+    paymentMethod: "Bank Transfer",
+  },
+  {
+    invoice: "INV007",
+    paymentStatus: "Unpaid",
+    totalAmount: "$300.00",
+    paymentMethod: "Credit Card",
+  },
+]
 export default withPageAuthRequired(function CSRPage() {
   return (
-    <>
-      <div className="mb-5" data-testid="csr">
-        <h1 data-testid="csr-title">Client-side Rendered Page</h1>
-        <div data-testid="csr-text">
-          <p>
-            You can protect a client-side rendered page by wrapping it with <code>withPageAuthRequired</code>. Only
-            logged in users will be able to access it. If the user is logged out, they will be redirected to the login
-            page instead.
-          </p>
-          <p>
-            Use the <code>useUser</code> hook to access the user profile from protected client-side rendered pages. The{' '}
-            <code>useUser</code> hook relies on the <code>UserProvider</code> Context Provider, so you need to wrap your
-            custom <a href="https://nextjs.org/docs/advanced-features/custom-app">App Component</a> with it.
-          </p>
-          <p>
-            You can also fetch the user profile by calling the <code>/api/auth/me</code> API route.
-          </p>
-        </div>
-      </div>
-    </>
-  );
+    <Table>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {invoices.map((invoice) => (
+          <TableRow key={invoice.invoice}>
+            <TableCell className="font-medium">{invoice.invoice}</TableCell>
+            <TableCell>{invoice.paymentStatus}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
+            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell className="text-right">$2,500.00</TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  )
 });
