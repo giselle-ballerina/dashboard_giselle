@@ -9,7 +9,7 @@ Welcome to the **Giselle Dashboard**, the admin interface for managing retail st
 - **Product Management**: Add, update, and manage product listings for your store.
 - **Order Tracking**: View and track customer orders.
 - **Store Analytics**: Access insights and data related to store performance.
-- **User Management**: Manage store administrators and staff roles.
+
 
 ## Important Notice
 
