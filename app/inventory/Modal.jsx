@@ -185,6 +185,8 @@ export function AddItemForm({ handleCloseModal }) {
             <Input type="number" placeholder="Quantity" id="varient-qty" />
             <Button
               type="button"
+              variant="secondary"
+              className = "text-gray-100"
               onClick={() => {
                 const color = document.getElementById("varient-color").value;
                 const size = document.getElementById("varient-size").value;
@@ -206,7 +208,7 @@ export function AddItemForm({ handleCloseModal }) {
           </div>
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit"   variant="primary" className= "w-full text-gray-900 shadow-sm">
           Submit
         </Button>
       </form>
