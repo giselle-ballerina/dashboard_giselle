@@ -71,7 +71,7 @@ function ProfilePage() {
               <img
                 src={shop.logo}
                 alt={`${shop.shopName} logo`}
-                className="w-full h-full object-cover rounded-full border"
+                className="w-full  object-cover  border"
               />
             </div>
 
