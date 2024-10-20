@@ -1,4 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+triplan.json
 
 # dependencies
 /node_modules
@@ -17,7 +18,7 @@ cypress.env.json
 # next.js
 /.next/
 /out/
-triplan.json
+
 # production
 /build
 
