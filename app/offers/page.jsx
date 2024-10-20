@@ -1,8 +1,9 @@
 'use client';
+
 import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button"; // Update to correct paths
-import { Input } from "@/components/ui/input"; // Fix imports for Input
-import { Label } from "@/components/ui/label"; // Fix imports for Label
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import { useForm } from 'react-hook-form';
 import Loading from '../../components/Loading';
@@ -10,7 +11,7 @@ import ErrorMessage from '../../components/ErrorMessage';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-function offersPage() {
+function OffersPage() {
     const { shopg } = useSelector(state => state); 
     const { register, handleSubmit, reset } = useForm();
     const [offers, setOffers] = useState([]);
@@ -18,24 +19,22 @@ function offersPage() {
     const [showForm, setShowForm] = useState(false);
     const [expandedOfferId, setExpandedOfferId] = useState(null); // To track expanded offer
 
-    useEffect(() => {
-        console.log('Shopg:', shopg);
-    }, [shopg]);
-
     // Fetch existing offers
     useEffect(() => {
         async function fetchOffers() {
-            try {
-                const response = await axios.get('/api/offer');
-                setOffers(response.data.offers);
-            } catch (error) {
-                console.error('Error fetching offers:', error);
-            } finally {
-                setIsLoading(false);
+            if (shopg && shopg.shopId) { // Ensure shopId is available
+                try {
+                    const response = await axios.post('/api/offer', { shopID: shopg.shopId });
+                    setOffers(response.data); // Assuming the data structure matches
+                } catch (error) {
+                    console.error('Error fetching offers:', error);
+                } finally {
+                    setIsLoading(false);
+                }
             }
         }
         fetchOffers();
-    }, []);
+    }, [shopg]);
 
     // Handle form submission
     const onSubmit = async (data) => {
@@ -64,46 +63,39 @@ function offersPage() {
             <div>
                 <h1 className="text-3xl font-bold mb-6">Add New Offer</h1>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                    {/* Form Fields */}
                     <div>
                         <Label htmlFor="offerId">Offer ID</Label>
                         <Input id="offerId" {...register('offerId', { required: true })} />
                     </div>
-
                     <div>
                         <Label htmlFor="shopId">Shop ID</Label>
-                        <Input id="shopId" {...register('shopId', { required: true })} />
+                        <Input id="shopId" value={shopg.shopId} readOnly />
                     </div>
-
                     <div>
                         <Label htmlFor="offerText">Offer Text</Label>
                         <Input id="offerText" {...register('offerText', { required: true })} />
                     </div>
-
                     <div>
                         <Label htmlFor="offerStartDate">Offer Start Date</Label>
                         <Input id="offerStartDate" type="date" {...register('offerStartDate', { required: true })} />
                     </div>
-
                     <div>
                         <Label htmlFor="offerEndDate">Offer End Date</Label>
                         <Input id="offerEndDate" type="date" {...register('offerEndDate', { required: true })} />
                     </div>
-
                     <div>
                         <Label htmlFor="offerDiscount">Offer Discount (%)</Label>
                         <Input id="offerDiscount" type="number" step="0.01" {...register('offerDiscount', { required: true })} />
                     </div>
-
                     <div>
                         <Label htmlFor="offerCode">Offer Code (Optional)</Label>
                         <Input id="offerCode" {...register('offerCode')} />
                     </div>
-
                     <div>
                         <Label htmlFor="offerStatus">Offer Status</Label>
                         <Input id="offerStatus" {...register('offerStatus')} />
                     </div>
-
                     <div>
                         <Label htmlFor="bannerImage">Banner Image URL (Optional)</Label>
                         <Input id="bannerImage" {...register('bannerImage')} />
@@ -117,7 +109,7 @@ function offersPage() {
 
     return (
         <div className="container mx-auto p-8">
-            <Button onClick={() => setShowForm(!showForm)}>
+            <Button onClick={() => setShowForm(!showForm)} variant="secondary" className="text-gray-100">
                 {showForm ? 'Hide Form' : 'Add New Offer'}
             </Button>
 
@@ -163,7 +155,7 @@ function offersPage() {
     );
 }
 
-export default withPageAuthRequired(offersPage, {
+export default withPageAuthRequired(OffersPage, {
     onRedirecting: () => <Loading />,
     onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 });

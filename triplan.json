@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "triplan-435417",
+  "private_key_id": "176d8a80f403b77666944758bbba2a7d8eaefb7a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCQs3RaCig67/Tm\nZ5BamZ1/79zUetiX2xgQ6TPlfjYTL85FV3xZizDQCOdWknxaAWiaSrLQnPKjz38V\nXioqCmGB8EdHJG/RIPFvW1Ffr3SqdoWHXpU3k9DkJG6c4Z56K9rHNZrrplIxJhYI\nRofAAMQbsls4+37KuQeQS9GPMLbEaISPBu0i3tjRwuyzMppCawfzffpgHyS6kgNk\nEIPTpiRIkoKlY7/3uqRkq83nrzDG2UuNNkVy6FgQPyKAWCghQ/3Yfzt3vPgETOAy\nes1HvXPe0m5SWRWDfOu9ABGBH1hNE6MhmnROUzp3tEga+PKGk0ozP9IpJtwRUYjL\nf/Efq8l5AgMBAAECggEACchYFrjrvLBO+j9eKayLqAPrW2IYFTbMCw35DYwu07U+\nWL8aumMH9ciO+0dZU4HCNKGAMqJUX8a+F2UPrK/u+lM9k7he5uCMnLQBGFr1pDXx\nvmkikBNU4qz5MsSowNGzhMGXAP90PGZlbux1w6v0QNBvYmF+UkOYGKVHkaAAJd8L\nrMEQfRStUMMSLlZIg79B8vPGa/ixCi1BE5HY/nszT/4W4VjYAA5cGfIjxt7I52im\nxDepldHLdwb01dnl5+QUNztziiW4x2LxsvgZsDLrKxU5/liy/3pF/fo4ISD/qr6i\n/0v78XoyL0I7cW/rQQISjy10i4Z0g+X3XHOU+Bh/QQKBgQDHfJ016KWsd34RGP0d\nshEfJALOlkxUuzN5mgSOBzZtG+I4Hc+mZnAPIWAz+3tmwCeuZKKu4cK8cGNITd5J\nsUrIrbHpw6eXknsoxAQxRW5uFKlMBm+j0AolHYRiGgZOzoNFwvUkvyL2jkHgwxUC\n7h7RPjdX+r4e1fhJO3uGiVB4PQKBgQC5sZwG/iSK34YX/xpbtH7d+XHY1Qub1KJg\nJANgUwMQbqFBs+RL5iD5FmgBjv3MSaCxmcKhuqEuVf4kfjOL5wmwFXtESIqdZTNq\ng2QVBQwJEFH6uSbEMwc4x69pGpwwLsXOWdnlKUvxFpFLUf7IVEaozZahQqatEl/q\nmmbKNgzt7QKBgQC+xnLGgmYmiOQcT8yJIKj1Igg5L01yXtD8gwnGFim7sMXoKsJR\n/Xc/UQjizacW/b81LXLTUn5cnhKkrCtgSFgfkNUrnPxinSiBNOxZfm/8gG/jj+gm\nPifllNPsybyskxzBk4/Dg7NZHXTtEUO/2J/KNfjRf69gZ/qZdnRMlndJdQKBgQCt\naetvMFnKAzLEKC1iZO5xt+kU+Oitb2bwZ9FrXDqpVtdrd2cFZnV2iPE6O2JTLJNQ\nKGr2BEdP8Wi0hdL3nRyT/4utWh1xHbhliSym4J67vC0C+3PzmD/vS7RJcFtaN+Ps\ncEan1ugfztaDQ6CvTtzp+YzpLkhfqqA+hFDoGI/8hQKBgBndFr9ffJH97TxcXR1Z\nEDtVBiV9YZaink+oTcCp5LRy2gzpjKzTBnG0p+mRuTBgfS22o4OkOhVeP+EC1zlt\nh357BGCBccmxk5pwFaXd/FjTE2t8eGTnzgiL2B+wSAgiKIETeq1ADGqzmoXpK4jR\nFB40dcgcbo+mQtH1yIqnkR4c\n-----END PRIVATE KEY-----\n",
+  "client_email": "giselle-account@triplan-435417.iam.gserviceaccount.com",
+  "client_id": "112407103226758931777",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/giselle-account%40triplan-435417.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

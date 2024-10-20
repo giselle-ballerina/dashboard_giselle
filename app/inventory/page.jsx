@@ -282,9 +282,9 @@ export default function Dashboard() {
                     Export
                   </span>
                 </Button>
-                <Button size="sm" className="h-8 gap-1" onClick={handleOpenModal}>
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap" >
+                <Button size="sm" className="h-8 gap-1" variant="secondary" onClick={handleOpenModal}>
+                  <PlusCircle className="h-3.5 w-3.5 text-gray-100" />
+                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap text-gray-100" >
                     Add Product
                   </span>
                 </Button>

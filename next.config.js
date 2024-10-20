@@ -1,4 +1,3 @@
-
 const path = require('path');
 
 module.exports = {
@@ -7,7 +6,20 @@ module.exports = {
     return config;
   },
   images: {
-    domains: ['storage.googleapis.com',"/via.placeholder.com"], // Add this line
+    domains: ['storage.googleapis.com', 'via.placeholder.com'], // Corrected domain
   },
-  poweredByHeader: false
+  poweredByHeader: false,
+  async headers() {
+    return [
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, max-age=0',
+          },
+        ],
+      },
+    ];
+  },
 };
