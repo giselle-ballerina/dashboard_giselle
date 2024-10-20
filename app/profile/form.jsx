@@ -161,7 +161,7 @@ export function ProfileForm() {
                     <div className="grid-cols-1">
                         <div>
                             <Label htmlFor="shopId">Shop ID</Label>
-                            <Input {...form.register("shopId")} type="text" id="shopId" placeholder="Shop ID" disabled />
+                            <Input {...form.register("shopId")} type="text" id="shopId" placeholder="Shop ID"  />
                         </div>
                         <div>
                             <Label htmlFor="shopName">Shop Name</Label>

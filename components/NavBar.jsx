@@ -55,6 +55,11 @@ const NavBar = () => {
                       Insights
                     </PageLink>
                   </NavItem>
+                  <NavItem>
+                    <PageLink href="/offers" className="nav-link" testId="navbar-external">
+                      Offers
+                    </PageLink>
+                  </NavItem>
                 </>
               )}
             </Nav>

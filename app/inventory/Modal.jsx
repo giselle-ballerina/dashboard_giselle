@@ -35,11 +35,11 @@ export function AddItemForm({ handleCloseModal }) {
           if (result.shopName) {
             setShop(result);
           } else {
-            setError('No shop found for this user.');
+           
             window.location.href = '/profile';
           }
         } catch (error) {
-          setError('Error fetching shop data.');
+         
           dispatch({ type: 'SET_ERROR', payload: 'Error fetching shop data' });
         } finally {
           // setLoading(false);
@@ -180,7 +180,7 @@ export function AddItemForm({ handleCloseModal }) {
         <div>
           <Label htmlFor="varients">Varients</Label>
           <div className="flex space-x-2">
-            <Input placeholder="Color" id="varient-color" />
+            <Input placeholder="Color" type="color" id="varient-color" />
             <Input placeholder="Size" id="varient-size" />
             <Input type="number" placeholder="Quantity" id="varient-qty" />
             <Button
